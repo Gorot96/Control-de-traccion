@@ -12,6 +12,7 @@
 #ifndef INC_TAREAS_H_
 #define INC_TAREAS_H_
 
-
+void CreaTareas(void);
+void TareaIMUs(void * pArg);
 
 #endif /* INC_TAREAS_H_ */
