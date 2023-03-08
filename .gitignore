@@ -1,1 +1,3 @@
+#Archivo .gitignore
 .metadata
+*/.settings
