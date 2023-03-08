@@ -12,6 +12,8 @@
 #ifndef INC_IMUS_H_
 #define INC_IMUS_H_
 
-
+void InitIMUS();
+void ReadIMUS();
+void TareaIMUS(void *pArg);
 
 #endif /* INC_IMUS_H_ */
