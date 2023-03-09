@@ -2,7 +2,7 @@
  * IMUS.c
  *
  *  Created on: Mar 8, 2023
- *      Author: carlo
+ *      Author: carlos
  */
 #include "IMUS.h"
 
@@ -40,7 +40,7 @@ void TareaIMUS(void *pArg){
 		while(1)
 		{
 			ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
-			ReadSensores();
+			ReadIMUS();
 
 			struc.accelX = accDataXYZ[0];
 			struc.accelY = accDataXYZ[1];

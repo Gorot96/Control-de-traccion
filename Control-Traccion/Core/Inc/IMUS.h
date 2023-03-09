@@ -2,7 +2,7 @@
  * IMUS.h
  *
  *  Created on: Mar 8, 2023
- *      Author: carlo
+ *      Author: carlos
  */
 
 #include "main.h"
