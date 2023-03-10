@@ -6,28 +6,42 @@
  */
 #include "IMUS.h"
 
-int16_t accDataXYZ[3];
+int16_t accDataXYZ_1[3];
+int16_t accDataXYZ_2[3];
 float 	gyroDataXYZ[3];
 
 extern QueueHandle_t xQueueSensors;
 
-void InitIMUS(){
+void InitIMU1(){
 
 	uint8_t buffer[1];
-	buffer[0] = 0x40;
-	HAL_I2C_Mem_Write(&hi2c2, 0xD4,0x10,I2C_MEMADD_SIZE_8BIT, buffer, 1, 1000);
-	HAL_I2C_Mem_Write(&hi2c1, 0xD4,0x10,I2C_MEMADD_SIZE_8BIT, buffer, 1, 1000);
+	buffer1[0] = 0x40;
+	//buffer2[0] = 0x;
+	HAL_I2C_Mem_Write(&hi2c2, 0xD4,0x10,I2C_MEMADD_SIZE_8BIT, buffer1, 1, 1000);
+	HAL_I2C_Mem_Write(&hi2c1, 0xD4,0x10,I2C_MEMADD_SIZE_8BIT, buffer2, 1, 1000);
 
 
 }
 
-void ReadIMUS(){
 
-	uint8_t buffer[2];
+
+void ReadIMU1(){
+
+	uint8_t buffer1[2];
 	int16_t accel;
-	uint8_t address = 0x28 + (2*axxis);
-	HAL_I2C_Mem_Read(&hi2c2, 0xD4, address,I2C_MEMADD_SIZE_8BIT,
-	buffer, 2, 1000);
+	uint8_t address = 0x28 + (2*axxis1);
+	HAL_I2C_Mem_Read(&hi2c2, 0xD4, address,I2C_MEMADD_SIZE_8BIT,buffer1, 2, 1000);
+	accel = ((int16_t)(buffer[1]<<8) | buffer[0])*0.061;
+	return accel;
+
+}
+
+void ReadIMU2(){
+
+	uint8_t buffer2[2];
+	int16_t accel;
+	uint8_t address = 0x2E + (2*axxis1);
+	HAL_I2C_Mem_Read(&hi2c2, 0xD4, address,I2C_MEMADD_SIZE_8BIT,buffer2, 2, 1000);
 	accel = ((int16_t)(buffer[1]<<8) | buffer[0])*0.061;
 	return accel;
 

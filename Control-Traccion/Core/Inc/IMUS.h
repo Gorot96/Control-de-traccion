@@ -13,7 +13,8 @@
 #define INC_IMUS_H_
 
 void InitIMUS();
-void ReadIMUS();
+void ReadIMU1();
+void ReadIMU2();
 void TareaIMUS(void *pArg);
 
 #endif /* INC_IMUS_H_ */
