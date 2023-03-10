@@ -5,6 +5,7 @@
  *      Author: carlos
  */
 #include "IMUS.h"
+//#include "main.h"
 
 int16_t accDataXYZ_1[3];
 int16_t accDataXYZ_2[3];
