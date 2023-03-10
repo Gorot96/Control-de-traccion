@@ -36,7 +36,19 @@ extern "C" {
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
+struct CT_Sensores_t {
+	float IMU1accelX;
+	float IMU1accelY;
+	float IMU1accelZ;
 
+	float IMU2accelX;
+	float IMU2accelY;
+	float IMU2accelZ;
+
+	float IMU2gyroX;
+	float IMU2gyroY;
+	float IMU2gyroZ;
+};
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/

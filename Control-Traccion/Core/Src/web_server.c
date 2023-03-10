@@ -12,6 +12,7 @@
 #include "cmsis_os.h"
 #include "semphr.h"
 #include "Tareas.h"
+#include "IMUs.h"
 
 /* Update SSID and PASSWORD with own Access point settings */
 #define SSID     "Redmi Note 8 Pro de Raul"
@@ -40,7 +41,7 @@ static  uint8_t  IP_Addr[4];
 // Prototipos
 int wifi_server(void);
 
-static  WIFI_Status_t SendWebPage(uint8_t ledIsOn, void * sensors);
+static  WIFI_Status_t SendWebPage(uint8_t ledIsOn, struct CT_Sensores_t sensors);
 static  int wifi_start(void);
 static  int wifi_connect(void);
 static  bool WebServerProcess(void);
@@ -161,7 +162,7 @@ int wifi_server(void)
 static bool WebServerProcess(void)
 {
 	uint8_t LedState=1;
-  void * sensors;
+	struct CT_Sensores_t sensors;
   uint16_t  respLen;
   static   uint8_t resp[1024];
   bool    stopserver=false;
@@ -174,7 +175,7 @@ static bool WebServerProcess(void)
    {
       if(strstr((char *)resp, "GET")) /* GET: put web page */
       {
-        sensors = GetSensores(); //BSP_TSENSOR_ReadTemp();
+        sensors = ReadIMUs(); //BSP_TSENSOR_ReadTemp();
         if(SendWebPage(LedState, sensors) != WIFI_STATUS_OK)
         {
           LOG(("> ERROR : Cannot send web page\n"));
@@ -200,7 +201,7 @@ static bool WebServerProcess(void)
              LedState = 1;
              EncolarLED(LedState);
            }
-           sensors = GetSensores(); //BSP_TSENSOR_ReadTemp();
+           sensors = ReadIMUs(); //BSP_TSENSOR_ReadTemp();
          }
          if(strstr((char *)resp, "stop_server"))
          {
@@ -213,7 +214,7 @@ static bool WebServerProcess(void)
              stopserver = true;
            }
          }
-         sensors = GetSensores(); //BSP_TSENSOR_ReadTemp();
+         sensors = ReadIMUs(); //BSP_TSENSOR_ReadTemp();
          if(SendWebPage(LedState, sensors) != WIFI_STATUS_OK)
          {
            LOG(("> ERROR : Cannot send web page\n"));
@@ -238,14 +239,15 @@ static bool WebServerProcess(void)
   * @param  None
   * @retval None
   */
-static WIFI_Status_t SendWebPage(uint8_t ledIsOn, void * sensors)
+static WIFI_Status_t SendWebPage(uint8_t ledIsOn, struct CT_Sensores_t sensors)
 {
   uint16_t SentDataLength;
   WIFI_Status_t ret;
 
   /* construct web page content */
   sprintf(http, "{{\"IMU1AccelX\": %d, \"IMU1AccelY\": %d, \"IMU1AccelZ\": %d}, {\"IMU2accelX\": %d, \"IMU2accelY\": %d, \"IMU2accelZ\": %d}, \"timestamp\": %ld}",
-		  0, 0, 0, 0, 0, 0, HAL_GetTick());
+		(int) sensors.IMU1accelX, (int) sensors.IMU1accelY, (int) sensors.IMU1accelZ, (int) sensors.IMU2accelX, (int) sensors.IMU2accelY,
+		(int) sensors.IMU2accelZ, HAL_GetTick());
 
   ret = WIFI_SendData(0, (uint8_t *)http, strlen((char *)http), &SentDataLength, WIFI_WRITE_TIMEOUT);
 
