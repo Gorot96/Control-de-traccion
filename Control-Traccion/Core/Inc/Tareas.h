@@ -8,6 +8,7 @@
 #include "main.h"
 #include "cmsis_os.h"
 #include "FreeRTOS.h"
+#include "semphr.h"
 
 #ifndef INC_TAREAS_H_
 #define INC_TAREAS_H_

@@ -10,7 +10,9 @@ int16_t accDataXYZ_1[3];
 int16_t accDataXYZ_2[3];
 float 	gyroDataXYZ[3];
 
-extern QueueHandle_t xQueueSensors;
+extern QueueHandle_t xQueueIMUs;
+extern I2C_HandleTypeDef hi2c1;
+extern I2C_HandleTypeDef hi2c2;
 
 void InitIMUS(){
 
@@ -49,19 +51,19 @@ void ReadIMU2(uint8_t axxis){
 
 void TareaIMUS(void *pArg){
 
-	InitSensores();
-		struct P5sensores_t struc;
-		while(1)
-		{
-			ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
-			ReadIMUS();
+	//InitSensores();
+	//struct P5sensores_t struc;
+	while(1)
+	{
+		ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
+		ReadIMUS();
 
-			struc.accelX = accDataXYZ[0];
-			struc.accelY = accDataXYZ[1];
-			struc.accelZ = accDataXYZ[2];
+//		struc.accelX = accDataXYZ[0];
+//		struc.accelY = accDataXYZ[1];
+//		struc.accelZ = accDataXYZ[2];
 
-			xQueueSend(xQueueIMUS, &struc, portMAX_DELAY);
-		}
+		xQueueSend(xQueueIMUs, 0, portMAX_DELAY);
+	}
 
 
 
