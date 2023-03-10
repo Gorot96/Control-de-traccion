@@ -175,7 +175,7 @@ static bool WebServerProcess(void)
    {
       if(strstr((char *)resp, "GET")) /* GET: put web page */
       {
-        sensors = ReadIMUs(); //BSP_TSENSOR_ReadTemp();
+        sensors = ReadIMU1(); //BSP_TSENSOR_ReadTemp();
         if(SendWebPage(LedState, sensors) != WIFI_STATUS_OK)
         {
           LOG(("> ERROR : Cannot send web page\n"));
@@ -189,20 +189,6 @@ static bool WebServerProcess(void)
        {
          LOG(("Post request\n"));
 
-         if(strstr((char *)resp, "radio"))
-         {
-           if(strstr((char *)resp, "radio=0"))
-           {
-             LedState = 0;
-             EncolarLED(LedState);
-           }
-           else if(strstr((char *)resp, "radio=1"))
-           {
-             LedState = 1;
-             EncolarLED(LedState);
-           }
-           sensors = ReadIMUs(); //BSP_TSENSOR_ReadTemp();
-         }
          if(strstr((char *)resp, "stop_server"))
          {
            if(strstr((char *)resp, "stop_server=0"))
@@ -214,7 +200,7 @@ static bool WebServerProcess(void)
              stopserver = true;
            }
          }
-         sensors = ReadIMUs(); //BSP_TSENSOR_ReadTemp();
+         sensors = ReadIMU1(); //BSP_TSENSOR_ReadTemp();
          if(SendWebPage(LedState, sensors) != WIFI_STATUS_OK)
          {
            LOG(("> ERROR : Cannot send web page\n"));
