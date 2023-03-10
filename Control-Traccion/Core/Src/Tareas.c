@@ -8,9 +8,14 @@
 
 #include "Tareas.h"
 
+QueueHandle_t xQueueIMUs;
+
 void CreaTareas(void) {
 	// Creamos tarea para el control de las IMUs
 	xTaskCreate(TareaIMUs, "TareaIMUs", 128, NULL, 1, NULL);
+
+	// Creamos la cola
+	//xQueueCreate();
 }
 
 void TareaIMUs(void * pArg) {
