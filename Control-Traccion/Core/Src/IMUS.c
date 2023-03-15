@@ -55,22 +55,32 @@ float ReadGyro(uint8_t axxis) {
 
 
 void TareaIMUs(void * pArg) {
-	// Inicio sensores
 	struct CT_Sensores_t struc;
+
+	struc.IMU1accelX = 0;
+	struc.IMU1accelY = 1;
+	struc.IMU1accelZ = 2;
+	struc.IMU2accelX = 3;
+	struc.IMU2accelY = 4;
+	struc.IMU2accelY = 5;
+	struc.IMU2gyroX = 6.;
+	struc.IMU2gyroY = 7.;
+	struc.IMU2gyroZ = 8.;
+
 	while(1)
 	{
 		ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
 
 		// Leo sensores
-		struc.IMU1accelX = ReadIMU1(0);
-		struc.IMU1accelY = ReadIMU1(1);
-		struc.IMU1accelZ = ReadIMU1(2);
-		struc.IMU2accelX = ReadIMU2(0);
-		struc.IMU2accelY = ReadIMU2(1);
-		struc.IMU2accelY = ReadIMU2(2);
-		struc.IMU2gyroX = ReadGyro(0);
-		struc.IMU2gyroY = ReadGyro(1);
-		struc.IMU2gyroZ = ReadGyro(2);
+		struc.IMU1accelX = struc.IMU1accelX++;
+		struc.IMU1accelY = struc.IMU1accelY++;
+		struc.IMU1accelZ = struc.IMU1accelZ++;
+		struc.IMU2accelX = struc.IMU2accelX++;
+		struc.IMU2accelY = struc.IMU2accelY++;
+		struc.IMU2accelY = struc.IMU2accelZ++;
+		struc.IMU2gyroX = struc.IMU2gyroX++;
+		struc.IMU2gyroY = struc.IMU2gyroY++;
+		struc.IMU2gyroZ = struc.IMU2gyroZ++;
 
 		xQueueSend(xQueueIMUs, &struc, portMAX_DELAY);
 	}
