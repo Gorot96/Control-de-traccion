@@ -232,9 +232,12 @@ static WIFI_Status_t SendWebPage(uint8_t ledIsOn, struct CT_Sensores_t sensors)
   WIFI_Status_t ret;
 
   /* construct web page content */
-  sprintf(http, "{{\"IMU1AccelX\": %d, \"IMU1AccelY\": %d, \"IMU1AccelZ\": %d}, {\"IMU2accelX\": %d, \"IMU2accelY\": %d, \"IMU2accelZ\": %d}, \"timestamp\": %ld}",
-		(int) sensors.IMU1accelX, (int) sensors.IMU1accelY, (int) sensors.IMU1accelZ, (int) sensors.IMU2accelX, (int) sensors.IMU2accelY,
-		(int) sensors.IMU2accelZ, HAL_GetTick());
+  sprintf(http, "{{\"IMU1accelX\": %d, \"IMU1accelY\": %d, \"IMU1accelZ\": %d}, {\"IMU2accelX\": %d, "
+		  "\"IMU2accelY\": %d, \"IMU2accelZ\": %d}, {\"IMU2gyroX\": %d, \"IMU2gyroY\": %d, \"IMU2gyroZ\": %d},"
+		  "\"timestamp\": %ld}",
+		(int) sensors.IMU1accelX, (int) sensors.IMU1accelY, (int) sensors.IMU1accelZ, (int) sensors.IMU2accelX,
+		(int) sensors.IMU2accelY, (int) sensors.IMU2accelZ, (int) sensors.IMU2gyroX, (int) sensors.IMU2gyroY,
+		(int) sensors.IMU2gyroZ, HAL_GetTick());
 
   ret = WIFI_SendData(0, (uint8_t *)http, strlen((char *)http), &SentDataLength, WIFI_WRITE_TIMEOUT);
 
