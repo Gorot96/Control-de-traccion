@@ -13,6 +13,8 @@ TaskHandle_t sensoresTaskHandler;
 
 SemaphoreHandle_t xSemaphore;
 
+int wifi_server(void);
+
 void CreaTareas(void) {
 	// Creamos tarea para el control de las IMUs
 	xTaskCreate(TareaIMUs, "TareaIMUs", 128, NULL, 1, NULL);
@@ -27,10 +29,7 @@ void CrearObjetosSerie(void) {
 }
 
 void TareaServidorWeb(void * pArg) {
-
-	while(1) {
-		// Bucle infinito
-	}
+	wifi_server();
 }
 
 struct CT_Sensores_t GetSensores()
