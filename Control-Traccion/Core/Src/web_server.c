@@ -46,6 +46,11 @@ static  int wifi_start(void);
 static  int wifi_connect(void);
 static  bool WebServerProcess(void);
 
+// Tipos importados del código donde se generan los datos de las IMUs y el giroscopio.
+extern int16_t accDataXYZ_1[3];
+extern int16_t accDataXYZ_2[3];
+extern float 	gyroDataXYZ[3];
+
 
 static int wifi_start(void)
 {
@@ -175,7 +180,12 @@ static bool WebServerProcess(void)
    {
       if(strstr((char *)resp, "GET")) /* GET: put web page */
       {
-        sensors = ReadIMU1(); //BSP_TSENSOR_ReadTemp();
+		sensors.IMU1accelX = accDataXYZ_1[0]; //BSP_TSENSOR_ReadTemp();
+		sensors.IMU1accelY = accDataXYZ_1[1]; //BSP_TSENSOR_ReadTemp();
+		sensors.IMU1accelZ = accDataXYZ_1[2]; //BSP_TSENSOR_ReadTemp();
+		sensors.IMU2accelX = accDataXYZ_2[0]; //BSP_TSENSOR_ReadTemp();
+		sensors.IMU2accelY = accDataXYZ_2[1]; //BSP_TSENSOR_ReadTemp();
+		sensors.IMU2accelY = accDataXYZ_2[2]; //BSP_TSENSOR_ReadTemp();
         if(SendWebPage(LedState, sensors) != WIFI_STATUS_OK)
         {
           LOG(("> ERROR : Cannot send web page\n"));
@@ -200,7 +210,12 @@ static bool WebServerProcess(void)
              stopserver = true;
            }
          }
-         sensors = ReadIMU1(); //BSP_TSENSOR_ReadTemp();
+         sensors.IMU1accelX = accDataXYZ_1[0]; //BSP_TSENSOR_ReadTemp();
+         sensors.IMU1accelY = accDataXYZ_1[1]; //BSP_TSENSOR_ReadTemp();
+         sensors.IMU1accelZ = accDataXYZ_1[2]; //BSP_TSENSOR_ReadTemp();
+         sensors.IMU2accelX = accDataXYZ_2[0]; //BSP_TSENSOR_ReadTemp();
+         sensors.IMU2accelY = accDataXYZ_2[1]; //BSP_TSENSOR_ReadTemp();
+         sensors.IMU2accelY = accDataXYZ_2[2]; //BSP_TSENSOR_ReadTemp();
          if(SendWebPage(LedState, sensors) != WIFI_STATUS_OK)
          {
            LOG(("> ERROR : Cannot send web page\n"));
