@@ -1,4 +1,7 @@
-Core/Src/web_server.o: ../Core/Src/web_server.c ../Core/Inc/main.h \
+LibWIFI/Src/es_wifi_io.o: ../LibWIFI/Src/es_wifi_io.c \
+ C:/SAC/repo/Control-Traccion/LibWIFI/Inc/es_wifi.h \
+ C:/SAC/repo/Control-Traccion/LibWIFI/Inc/es_wifi_conf.h \
+ C:/SAC/repo/Control-Traccion/LibWIFI/Inc/es_wifi_io.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h \
  ../Core/Inc/stm32l4xx_hal_conf.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h \
@@ -37,28 +40,10 @@ Core/Src/web_server.o: ../Core/Src/web_server.c ../Core/Inc/main.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi_ex.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h \
- C:/SAC/repo/Control-Traccion/LibWIFI/Inc/es_wifi.h \
- C:/SAC/repo/Control-Traccion/LibWIFI/Inc/es_wifi_conf.h \
- C:/SAC/repo/Control-Traccion/LibWIFI/Inc/wifi.h \
- C:/SAC/repo/Control-Traccion/LibWIFI/Inc/es_wifi.h \
- C:/SAC/repo/Control-Traccion/LibWIFI/Inc/es_wifi_io.h \
- ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h \
- ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h \
- ../Core/Inc/FreeRTOSConfig.h \
- ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h \
- ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h \
- ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h \
- ../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h \
- ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h \
- ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h \
- ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h \
- ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h \
- ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h \
- ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h \
- ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h \
- ../Core/Inc/Tareas.h ../Core/Inc/main.h ../Core/Inc/IMUs.h \
- ../Core/Inc/Tareas.h
-../Core/Inc/main.h:
+ C:/SAC/repo/Control-Traccion/LibWIFI/Inc/es_wifi_conf.h
+C:/SAC/repo/Control-Traccion/LibWIFI/Inc/es_wifi.h:
+C:/SAC/repo/Control-Traccion/LibWIFI/Inc/es_wifi_conf.h:
+C:/SAC/repo/Control-Traccion/LibWIFI/Inc/es_wifi_io.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
 ../Core/Inc/stm32l4xx_hal_conf.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h:
@@ -97,26 +82,4 @@ Core/Src/web_server.o: ../Core/Src/web_server.c ../Core/Inc/main.h \
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi_ex.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h:
-C:/SAC/repo/Control-Traccion/LibWIFI/Inc/es_wifi.h:
 C:/SAC/repo/Control-Traccion/LibWIFI/Inc/es_wifi_conf.h:
-C:/SAC/repo/Control-Traccion/LibWIFI/Inc/wifi.h:
-C:/SAC/repo/Control-Traccion/LibWIFI/Inc/es_wifi.h:
-C:/SAC/repo/Control-Traccion/LibWIFI/Inc/es_wifi_io.h:
-../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h:
-../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h:
-../Core/Inc/FreeRTOSConfig.h:
-../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h:
-../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h:
-../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h:
-../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h:
-../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h:
-../Middlewares/Third_Party/FreeRTOS/Source/include/task.h:
-../Middlewares/Third_Party/FreeRTOS/Source/include/list.h:
-../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h:
-../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h:
-../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h:
-../Middlewares/Third_Party/FreeRTOS/Source/include/task.h:
-../Core/Inc/Tareas.h:
-../Core/Inc/main.h:
-../Core/Inc/IMUs.h:
-../Core/Inc/Tareas.h:
