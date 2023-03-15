@@ -28,7 +28,7 @@ void InitIMUS(){
 
 int16_t ReadIMU1(uint8_t axxis) {
 
-	uint8_t buffer[2];
+	uint8_t buffer1[2];
 	int16_t accel;
 	uint8_t address = 0x28 + (2*axxis);
 	HAL_I2C_Mem_Read(&hi2c2, 0xD4, address,I2C_MEMADD_SIZE_8BIT,buffer1, 2, 1000);

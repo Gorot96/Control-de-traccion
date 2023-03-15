@@ -21,22 +21,13 @@ C_DEPS += \
 
 
 # Each subdirectory must supply rules for building sources it contributes
-<<<<<<< HEAD
 LibWIFI/Src/%.o LibWIFI/Src/%.su LibWIFI/Src/%.cyclo: ../LibWIFI/Src/%.c LibWIFI/Src/subdir.mk
 	arm-none-eabi-gcc "$<" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L475xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I"C:/SAC/repo/Control-Traccion/LibWIFI/Inc" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "$@"
-=======
-LibWIFI/Src/%.o LibWIFI/Src/%.su: ../LibWIFI/Src/%.c LibWIFI/Src/subdir.mk
-	arm-none-eabi-gcc "$<" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32L475xx -c -I../Core/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc -I../Drivers/STM32L4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32L4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I"C:/Users/carlo/Desktop/SAC/Control-Traccion/LibWIFI/Inc" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "$@"
->>>>>>> main
 
 clean: clean-LibWIFI-2f-Src
 
 clean-LibWIFI-2f-Src:
-<<<<<<< HEAD
 	-$(RM) ./LibWIFI/Src/es_wifi.cyclo ./LibWIFI/Src/es_wifi.d ./LibWIFI/Src/es_wifi.o ./LibWIFI/Src/es_wifi.su ./LibWIFI/Src/es_wifi_io.cyclo ./LibWIFI/Src/es_wifi_io.d ./LibWIFI/Src/es_wifi_io.o ./LibWIFI/Src/es_wifi_io.su ./LibWIFI/Src/wifi.cyclo ./LibWIFI/Src/wifi.d ./LibWIFI/Src/wifi.o ./LibWIFI/Src/wifi.su
-=======
-	-$(RM) ./LibWIFI/Src/es_wifi.d ./LibWIFI/Src/es_wifi.o ./LibWIFI/Src/es_wifi.su ./LibWIFI/Src/es_wifi_io.d ./LibWIFI/Src/es_wifi_io.o ./LibWIFI/Src/es_wifi_io.su ./LibWIFI/Src/wifi.d ./LibWIFI/Src/wifi.o ./LibWIFI/Src/wifi.su
->>>>>>> main
 
 .PHONY: clean-LibWIFI-2f-Src
 

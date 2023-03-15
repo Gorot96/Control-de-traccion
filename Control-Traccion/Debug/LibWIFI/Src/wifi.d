@@ -1,15 +1,8 @@
 LibWIFI/Src/wifi.o: ../LibWIFI/Src/wifi.c \
-<<<<<<< HEAD
  C:/SAC/repo/Control-Traccion/LibWIFI/Inc/wifi.h \
  C:/SAC/repo/Control-Traccion/LibWIFI/Inc/es_wifi.h \
  C:/SAC/repo/Control-Traccion/LibWIFI/Inc/es_wifi_conf.h \
  C:/SAC/repo/Control-Traccion/LibWIFI/Inc/es_wifi_io.h \
-=======
- C:/Users/carlo/Desktop/SAC/Control-Traccion/LibWIFI/Inc/wifi.h \
- C:/Users/carlo/Desktop/SAC/Control-Traccion/LibWIFI/Inc/es_wifi.h \
- C:/Users/carlo/Desktop/SAC/Control-Traccion/LibWIFI/Inc/es_wifi_conf.h \
- C:/Users/carlo/Desktop/SAC/Control-Traccion/LibWIFI/Inc/es_wifi_io.h \
->>>>>>> main
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h \
  ../Core/Inc/stm32l4xx_hal_conf.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h \
@@ -48,17 +41,10 @@ LibWIFI/Src/wifi.o: ../LibWIFI/Src/wifi.c \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_spi_ex.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h
-<<<<<<< HEAD
 C:/SAC/repo/Control-Traccion/LibWIFI/Inc/wifi.h:
 C:/SAC/repo/Control-Traccion/LibWIFI/Inc/es_wifi.h:
 C:/SAC/repo/Control-Traccion/LibWIFI/Inc/es_wifi_conf.h:
 C:/SAC/repo/Control-Traccion/LibWIFI/Inc/es_wifi_io.h:
-=======
-C:/Users/carlo/Desktop/SAC/Control-Traccion/LibWIFI/Inc/wifi.h:
-C:/Users/carlo/Desktop/SAC/Control-Traccion/LibWIFI/Inc/es_wifi.h:
-C:/Users/carlo/Desktop/SAC/Control-Traccion/LibWIFI/Inc/es_wifi_conf.h:
-C:/Users/carlo/Desktop/SAC/Control-Traccion/LibWIFI/Inc/es_wifi_io.h:
->>>>>>> main
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
 ../Core/Inc/stm32l4xx_hal_conf.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h:
