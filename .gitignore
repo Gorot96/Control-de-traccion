@@ -1,3 +1,4 @@
 #Archivo .gitignore
 .metadata
 */.settings
+*/Debug/
