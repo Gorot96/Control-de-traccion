@@ -1,8 +1,0 @@
-web_server.c:55:12:wifi_start	3
-web_server.c:88:5:wifi_connect	3
-web_server.c:118:5:wifi_server	7
-web_server.c:167:13:WebServerProcess	10
-web_server.c:243:22:SendWebPage	3
-web_server.c:284:6:EXTI1_IRQHandler	1
-web_server.c:295:6:HAL_GPIO_EXTI_Callback	2
-web_server.c:318:6:SPI3_IRQHandler	1

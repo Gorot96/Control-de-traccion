@@ -5,7 +5,6 @@
  *      Author: carlos
  */
 #include "IMUS.h"
-//#include "main.h"
 
 int16_t accDataXYZ_1[3];
 int16_t accDataXYZ_2[3];
@@ -19,7 +18,6 @@ void InitIMUS(){
 
 	uint8_t buffer[1];
 	buffer[0] = 0x40;
-	//buffer2[0] = 0x;
 	HAL_I2C_Mem_Write(&hi2c2, 0xD4,0x10,I2C_MEMADD_SIZE_8BIT, buffer, 1, 1000);
 	HAL_I2C_Mem_Write(&hi2c1, 0xD4,0x10,I2C_MEMADD_SIZE_8BIT, buffer, 1, 1000);
 
@@ -30,7 +28,7 @@ void InitIMUS(){
 
 int16_t ReadIMU1(uint8_t axxis) {
 
-	uint8_t buffer1[2];
+	uint8_t buffer[2];
 	int16_t accel;
 	uint8_t address = 0x28 + (2*axxis);
 	HAL_I2C_Mem_Read(&hi2c2, 0xD4, address,I2C_MEMADD_SIZE_8BIT,buffer1, 2, 1000);

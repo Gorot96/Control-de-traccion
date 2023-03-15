@@ -9,7 +9,10 @@ S_SRCS :=
 C_SRCS := 
 S_UPPER_SRCS := 
 O_SRCS := 
+<<<<<<< HEAD
 CYCLO_FILES := 
+=======
+>>>>>>> main
 SIZE_OUTPUT := 
 OBJDUMP_LIST := 
 SU_FILES := 
