@@ -1,4 +1,0 @@
-IMUS.c:17:6:InitIMUS	1
-IMUS.c:29:9:ReadIMU1	1
-IMUS.c:40:9:ReadIMU2	1
-IMUS.c:51:6:TareaIMUS	1

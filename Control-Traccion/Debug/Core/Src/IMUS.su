@@ -1,4 +1,0 @@
-../Core/Src/IMUS.c:17:6:InitIMUS	32	static
-../Core/Src/IMUS.c:29:9:ReadIMU1	40	static
-../Core/Src/IMUS.c:40:9:ReadIMU2	40	static
-../Core/Src/IMUS.c:51:6:TareaIMUS	16	static

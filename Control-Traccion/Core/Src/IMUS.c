@@ -48,29 +48,32 @@ int16_t ReadIMU2(uint8_t axxis) {
 
 }
 
-void TareaIMUS(void *pArg){
+float ReadGyro(uint8_t axxis) {
+	// Código del giroscopio
+	return 0.;
+}
 
-	//InitSensores();
-	//struct P5sensores_t struc;
+
+void TareaIMUs(void * pArg) {
+	// Inicio sensores
+	struct CT_Sensores_t struc;
 	while(1)
 	{
 		ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
-		ReadIMU1(0);
-		ReadIMU1(1);
-		ReadIMU1(2);
 
-		ReadIMU2(0);
-		ReadIMU2(1);
-		ReadIMU2(2);
+		// Leo sensores
+		struc.IMU1accelX = ReadIMU1(0);
+		struc.IMU1accelY = ReadIMU1(1);
+		struc.IMU1accelZ = ReadIMU1(2);
+		struc.IMU2accelX = ReadIMU2(0);
+		struc.IMU2accelY = ReadIMU2(1);
+		struc.IMU2accelY = ReadIMU2(2);
+		struc.IMU2gyroX = ReadGyro(0);
+		struc.IMU2gyroY = ReadGyro(1);
+		struc.IMU2gyroZ = ReadGyro(2);
 
-//		struc.accelX = accDataXYZ[0];
-//		struc.accelY = accDataXYZ[1];
-//		struc.accelZ = accDataXYZ[2];
-
-		xQueueSend(xQueueIMUs, 0, portMAX_DELAY);
+		xQueueSend(xQueueIMUs, &struc, portMAX_DELAY);
 	}
-
-
-
 }
+
 
