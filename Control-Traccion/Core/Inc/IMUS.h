@@ -13,9 +13,9 @@
 #ifndef INC_IMUS_H_
 #define INC_IMUS_H_
 
-void InitIMUS();
-void ReadIMU1();
-void ReadIMU2();
-void TareaIMUS(void *pArg);
+void initAccelerometer ();
+int16_t readAccel1(uint8_t axxis);
+int16_t readAccel2(uint8_t axxis);
+//void TareaIMUS(void *pArg);
 
 #endif /* INC_IMUS_H_ */

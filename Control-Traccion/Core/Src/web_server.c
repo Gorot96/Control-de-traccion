@@ -175,7 +175,7 @@ static bool WebServerProcess(void)
    {
       if(strstr((char *)resp, "GET")) /* GET: put web page */
       {
-        sensors = ReadIMU1(); //BSP_TSENSOR_ReadTemp();
+        sensors = ReadIMU1(); //BSP_TSENSOR_ReadTemp(); //// esto llama a una funcion que no hay en tareas "getIMUS" por ejemplo
         if(SendWebPage(LedState, sensors) != WIFI_STATUS_OK)
         {
           LOG(("> ERROR : Cannot send web page\n"));
@@ -200,7 +200,7 @@ static bool WebServerProcess(void)
              stopserver = true;
            }
          }
-         sensors = ReadIMU1(); //BSP_TSENSOR_ReadTemp();
+         sensors = ReadIMU1(); //BSP_TSENSOR_ReadTemp(); /// pasa lo mismo esta funcion vendria de tareas no de IMUS
          if(SendWebPage(LedState, sensors) != WIFI_STATUS_OK)
          {
            LOG(("> ERROR : Cannot send web page\n"));
