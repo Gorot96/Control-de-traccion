@@ -17,7 +17,7 @@ int wifi_server(void);
 
 void CreaTareas(void) {
 	// Creamos tarea para el control de las IMUs
-	xTaskCreate(TareaIMUs, "TareaIMUs", 128, NULL, 1, NULL);
+	//xTaskCreate(TareaIMUs, "TareaIMUs", 128, NULL, 1, NULL);
 
 	// Creamos la tarea para el control del servidor web
 	xTaskCreate(TareaServidorWeb,"TareaWebServer", 256, NULL,1, NULL);

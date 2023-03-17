@@ -8,7 +8,7 @@
 #include "main.h"
 #include "cmsis_os.h"
 #include "FreeRTOS.h"
-#include "Tareas.h"
+#include "semphr.h"
 
 #ifndef INC_IMUS_H_
 #define INC_IMUS_H_
