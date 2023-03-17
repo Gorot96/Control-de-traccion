@@ -9,7 +9,7 @@
 int16_t accDataXYZ_1[3];
 
 
-//extern QueueHandle_t xQueueIMUs;
+extern QueueHandle_t xQueueIMUs;
 extern I2C_HandleTypeDef hi2c1;
 extern I2C_HandleTypeDef hi2c2;
 
@@ -89,20 +89,20 @@ void TareaIMUs(void * pArg) {
 
 	while(1)
 	{
-		//ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
+		ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
 
 		// Leo sensores
 		struc.IMU1accelX = struc.IMU1accelX + 1;
 		struc.IMU1accelY = struc.IMU1accelY + 1;
 		struc.IMU1accelZ = struc.IMU1accelZ + 1;
-		struc.IMU2accelX = struc.IMU2accelX + 1;
-		struc.IMU2accelY = struc.IMU2accelY + 1;
-		struc.IMU2accelZ= struc.IMU2accelZ + 1;
+		struc.IMU2accelX = ReadIMU2(0);
+		struc.IMU2accelY = ReadIMU2(1);
+		struc.IMU2accelZ = ReadIMU2(2);
 		struc.IMU2gyroX = struc.IMU2gyroX + 1;
 		struc.IMU2gyroY = struc.IMU2gyroY + 1;
 		struc.IMU2gyroZ = struc.IMU2gyroZ + 1;
 
-		//xQueueSend(xQueueIMUs, &struc, portMAX_DELAY);
+		xQueueSend(xQueueIMUs, &struc, portMAX_DELAY);
 	}
 }
 
