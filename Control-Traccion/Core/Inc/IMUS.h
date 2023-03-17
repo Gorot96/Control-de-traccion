@@ -17,6 +17,6 @@ void initAccelerometer ();
 int16_t ReadIMU1(uint8_t axxis);
 int16_t ReadIMU2(uint8_t axxis);
 float ReadGyro(uint8_t axxis);
-void TareaIMUS(void *pArg);
+void TareaIMUs(void *pArg);
 
 #endif /* INC_IMUS_H_ */

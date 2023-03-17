@@ -14,9 +14,10 @@
 #ifndef INC_TAREAS_H_
 #define INC_TAREAS_H_
 
-void CreaTareas(void);
+void CrearTareas(void);
 void CrearObjetosSerie(void);
 void TareaServidorWeb(void * pArg);
+void TareaIMUs(void *pArg);
 struct CT_Sensores_t GetSensores(void);
 
 #endif /* INC_TAREAS_H_ */
