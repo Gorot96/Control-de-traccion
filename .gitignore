@@ -2,4 +2,4 @@
 .metadata
 */.settings
 */Debug/
-.launch
+*.launch
