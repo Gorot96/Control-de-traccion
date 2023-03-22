@@ -13,7 +13,12 @@ extern QueueHandle_t xQueueIMUs;
 extern I2C_HandleTypeDef hi2c1;
 extern I2C_HandleTypeDef hi2c2;
 
-struct CT_Sensores_t struc;
+int16_t IMU1AccelXYZ[3];
+int16_t IMU2AccelXYZ[3];
+float IMU2GyroXYZ[3];
+
+static long lastTimestamp;
+long currentTime;
 
 void initAccelerometer (){
 	  uint8_t buffer [1];
@@ -74,33 +79,49 @@ float ReadGyro(uint8_t axxis) {
 	return 0.;
 }
 
+void ReadSensores(void) {
+	int i, j, k;
+
+	for (i = 0; i < 3; i++)
+		IMU1AccelXYZ[i] = ReadIMU1(i);
+
+	for (j = 0; j < 3; j++)
+		IMU2AccelXYZ[j] = ReadIMU2(j);
+
+	for (k = 0; k < 3; k++)
+		IMU2GyroXYZ[k] = ReadGyro(k);
+
+	currentTime = HAL_GetTick();
+
+	if (currentTime < lastTimestamp)
+		currentTime = currentTime + lastTimestamp;
+
+	lastTimestamp = currentTime;
+}
+
 
 void TareaIMUs(void * pArg) {
-
-	struc.IMU1accelX = 0;
-	struc.IMU1accelY = 1;
-	struc.IMU1accelZ = 2;
-	struc.IMU2accelX = 3;
-	struc.IMU2accelY = 4;
-	struc.IMU2accelZ = 5;
-	struc.IMU2gyroX = 6.;
-	struc.IMU2gyroY = 7.;
-	struc.IMU2gyroZ = 8.;
+	initAccelerometer();
+	struct CT_Sensores_t struc;
 
 	while(1)
 	{
 		ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
 
 		// Leo sensores
-		struc.IMU1accelX = struc.IMU1accelX + 1;
-		struc.IMU1accelY = struc.IMU1accelY + 1;
-		struc.IMU1accelZ = struc.IMU1accelZ + 1;
-		struc.IMU2accelX = ReadIMU2(0);
-		struc.IMU2accelY = ReadIMU2(1);
-		struc.IMU2accelZ = ReadIMU2(2);
-		struc.IMU2gyroX = struc.IMU2gyroX + 1;
-		struc.IMU2gyroY = struc.IMU2gyroY + 1;
-		struc.IMU2gyroZ = struc.IMU2gyroZ + 1;
+		ReadSensores();
+
+		// Guardo los datos en la estructura
+		struc.IMU1accelX = IMU1AccelXYZ[0];
+		struc.IMU1accelY = IMU1AccelXYZ[1];
+		struc.IMU1accelZ = IMU1AccelXYZ[2];
+		struc.IMU2accelX = IMU2AccelXYZ[0];
+		struc.IMU2accelY = IMU2AccelXYZ[1];
+		struc.IMU2accelZ = IMU2AccelXYZ[2];
+		struc.IMU1gyroX = IMU2GyroXYZ[0];
+		struc.IMU1gyroY = IMU2GyroXYZ[1];
+		struc.IMU1gyroZ = IMU2GyroXYZ[2];
+		struc.timestamp = currentTime;
 
 		xQueueSend(xQueueIMUs, &struc, portMAX_DELAY);
 	}
