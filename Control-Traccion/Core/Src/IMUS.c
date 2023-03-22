@@ -17,9 +17,6 @@ int16_t IMU1AccelXYZ[3];
 int16_t IMU2AccelXYZ[3];
 float IMU2GyroXYZ[3];
 
-static long lastTimestamp;
-long currentTime;
-
 void initAccelerometer (){
 	  uint8_t buffer [1];
 	  buffer [0]=0x40;
@@ -90,13 +87,6 @@ void ReadSensores(void) {
 
 	for (k = 0; k < 3; k++)
 		IMU2GyroXYZ[k] = ReadGyro(k);
-
-	currentTime = HAL_GetTick();
-
-	if (currentTime < lastTimestamp)
-		currentTime = currentTime + lastTimestamp;
-
-	lastTimestamp = currentTime;
 }
 
 
@@ -121,7 +111,6 @@ void TareaIMUs(void * pArg) {
 		struc.IMU1gyroX = IMU2GyroXYZ[0];
 		struc.IMU1gyroY = IMU2GyroXYZ[1];
 		struc.IMU1gyroZ = IMU2GyroXYZ[2];
-		struc.timestamp = currentTime;
 
 		xQueueSend(xQueueIMUs, &struc, portMAX_DELAY);
 	}

@@ -231,11 +231,10 @@ static WIFI_Status_t SendWebPage(struct CT_Sensores_t sensors)
 
   /* construct web page content */
   sprintf(http, "{{\"IMU1accelX\": %d, \"IMU1accelY\": %d, \"IMU1accelZ\": %d}, {\"IMU2accelX\": %d, "
-		  "\"IMU2accelY\": %d, \"IMU2accelZ\": %d}, {\"IMU2gyroX\": %d, \"IMU2gyroY\": %d, \"IMU2gyroZ\": %d},"
-		  "\"timestamp\": %ld}",
+		  "\"IMU2accelY\": %d, \"IMU2accelZ\": %d}, {\"IMU2gyroX\": %d, \"IMU2gyroY\": %d, \"IMU2gyroZ\": %d}}",
 		(int) sensors.IMU1accelX, (int) sensors.IMU1accelY, (int) sensors.IMU1accelZ, (int) sensors.IMU2accelX,
 		(int) sensors.IMU2accelY, (int) sensors.IMU2accelZ, (int) sensors.IMU1gyroX, (int) sensors.IMU1gyroY,
-		(int) sensors.IMU1gyroZ, sensors.timestamp);
+		(int) sensors.IMU1gyroZ);
 
   ret = WIFI_SendData(0, (uint8_t *)http, strlen((char *)http), &SentDataLength, WIFI_WRITE_TIMEOUT);
 

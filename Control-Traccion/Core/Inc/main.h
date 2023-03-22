@@ -48,8 +48,6 @@ struct CT_Sensores_t {
 	float IMU1gyroX;
 	float IMU1gyroY;
 	float IMU1gyroZ;
-
-	long timestamp;
 };
 /* USER CODE END ET */
 
