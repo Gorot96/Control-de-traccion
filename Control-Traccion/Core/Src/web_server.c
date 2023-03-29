@@ -54,10 +54,10 @@ static int wifi_start(void)
  /*Initialize and use WIFI module */
   if(WIFI_Init() ==  WIFI_STATUS_OK)
   {
-    LOG(("ES-WIFI Initialized.\n"));
+    LOG(("ES-WIFI Initialized.\r\n"));
     if(WIFI_GetMAC_Address(MAC_Addr) == WIFI_STATUS_OK)
     {
-      LOG(("> es-wifi module MAC Address : %X:%X:%X:%X:%X:%X\n",
+      LOG(("> es-wifi module MAC Address : %X:%X:%X:%X:%X:%X\r\n",
                MAC_Addr[0],
                MAC_Addr[1],
                MAC_Addr[2],
@@ -67,7 +67,7 @@ static int wifi_start(void)
     }
     else
     {
-      LOG(("> ERROR : CANNOT get MAC address\n"));
+      LOG(("> ERROR : CANNOT get MAC address\r\n"));
       return -1;
     }
   }
@@ -85,12 +85,12 @@ int wifi_connect(void)
 
   wifi_start();
 
-  LOG(("\nConnecting to %s , %s\n",SSID,PASSWORD));
+  LOG(("\r\nConnecting to %s , %s\r\n",SSID,PASSWORD));
   if( WIFI_Connect(SSID, PASSWORD, WIFI_ECN_WPA2_PSK) == WIFI_STATUS_OK)
   {
     if(WIFI_GetIP_Address(IP_Addr) == WIFI_STATUS_OK)
     {
-      LOG(("> es-wifi module connected: got IP Address : %d.%d.%d.%d\n",
+      LOG(("> es-wifi module connected: got IP Address : %d.%d.%d.%d\r\n",
                IP_Addr[0],
                IP_Addr[1],
                IP_Addr[2],
@@ -98,13 +98,13 @@ int wifi_connect(void)
     }
     else
     {
-		  LOG((" ERROR : es-wifi module CANNOT get IP address\n"));
+		  LOG((" ERROR : es-wifi module CANNOT get IP address\r\n"));
       return -1;
     }
   }
   else
   {
-		 LOG(("ERROR : es-wifi module NOT connected\n"));
+		 LOG(("ERROR : es-wifi module NOT connected\r\n"));
      return -1;
   }
   return 0;
@@ -114,16 +114,16 @@ int wifi_server(void)
 {
   bool StopServer = false;
 
-  LOG(("\nRunning HTML Server test\n"));
+  LOG(("\r\nRunning HTML Server test\r\n"));
   if (wifi_connect()!=0) return -1;
 
 
   if (WIFI_STATUS_OK!=WIFI_StartServer(SOCKET, WIFI_TCP_PROTOCOL, 1, "", PORT))
   {
-    LOG(("ERROR: Cannot start server.\n"));
+    LOG(("ERROR: Cannot start server.\r\n"));
   }
 
-  LOG(("Server is running and waiting for an HTTP  Client connection to %d.%d.%d.%d\n",IP_Addr[0],IP_Addr[1],IP_Addr[2],IP_Addr[3]));
+  LOG(("Server is running and waiting for an HTTP  Client connection to %d.%d.%d.%d\r\n",IP_Addr[0],IP_Addr[1],IP_Addr[2],IP_Addr[3]));
 
   do
   {
@@ -133,17 +133,17 @@ int wifi_server(void)
 
     while (WIFI_STATUS_OK != WIFI_WaitServerConnection(SOCKET,1000,RemoteIP,&RemotePort))
     {
-        LOG(("Waiting connection to  %d.%d.%d.%d\n",IP_Addr[0],IP_Addr[1],IP_Addr[2],IP_Addr[3]));
+        LOG(("Waiting connection to  %d.%d.%d.%d\r\n",IP_Addr[0],IP_Addr[1],IP_Addr[2],IP_Addr[3]));
 
     }
 
-    LOG(("Client connected %d.%d.%d.%d:%d\n",RemoteIP[0],RemoteIP[1],RemoteIP[2],RemoteIP[3],RemotePort));
+    LOG(("Client connected %d.%d.%d.%d:%d\r\n",RemoteIP[0],RemoteIP[1],RemoteIP[2],RemoteIP[3],RemotePort));
 
     StopServer=WebServerProcess();
 
     if(WIFI_CloseServerConnection(SOCKET) != WIFI_STATUS_OK)
     {
-      LOG(("ERROR: failed to close current Server connection\n"));
+      LOG(("ERROR: failed to close current Server connection\r\n"));
       return -1;
     }
   }
@@ -151,10 +151,10 @@ int wifi_server(void)
 
   if (WIFI_STATUS_OK!=WIFI_StopServer(SOCKET))
   {
-    LOG(("ERROR: Cannot stop server.\n"));
+    LOG(("ERROR: Cannot stop server.\r\n"));
   }
 
-  LOG(("Server is stop\n"));
+  LOG(("Server is stop\r\n"));
   return 0;
 }
 
@@ -168,7 +168,7 @@ static bool WebServerProcess(void)
 
   if (WIFI_STATUS_OK == WIFI_ReceiveData(SOCKET, resp, 1000, &respLen, WIFI_READ_TIMEOUT))
   {
-   LOG(("get %d byte from server\n",respLen));
+   LOG(("get %d byte from server\r\n",respLen));
 
    if( respLen > 0)
    {
@@ -177,16 +177,16 @@ static bool WebServerProcess(void)
 		sensors = GetSensores();
         if(SendWebPage(sensors) != WIFI_STATUS_OK)
         {
-          LOG(("> ERROR : Cannot send web page\n"));
+          LOG(("> ERROR : Cannot send web page\r\n"));
         }
         else
         {
-          LOG(("Send page after  GET command\n"));
+          LOG(("Send page after  GET command\r\n"));
         }
        }
        else if(strstr((char *)resp, "POST"))/* POST: received info */
        {
-         LOG(("Post request\n"));
+         LOG(("Post request\r\n"));
 
          if(strstr((char *)resp, "stop_server"))
          {
@@ -202,18 +202,18 @@ static bool WebServerProcess(void)
          sensors = GetSensores();
          if(SendWebPage(sensors) != WIFI_STATUS_OK)
          {
-           LOG(("> ERROR : Cannot send web page\n"));
+           LOG(("> ERROR : Cannot send web page\r\n"));
          }
          else
          {
-           LOG(("Send Page after POST command\n"));
+           LOG(("Send Page after POST command\r\n"));
          }
        }
      }
   }
   else
   {
-    LOG(("Client close connection\n"));
+    LOG(("Client close connection\r\n"));
   }
   return stopserver;
 
