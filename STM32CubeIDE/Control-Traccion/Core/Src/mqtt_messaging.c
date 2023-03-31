@@ -5,6 +5,208 @@
  *      Author: Raul Duran
  */
 
+#include "mqtt_messaging.h"
+
+// Settings.
+#define CONNECTION_KEEPALIVE_S 60UL/* Update SSID and PASSWORD with own Access point settings */
+#define SSID     "Redmi Note 8 Pro de Raul"
+#define PASSWORD "e5292c6c45df"
+#define PORT           80
+
+#define TERMINAL_USE
+
+#define WIFI_WRITE_TIMEOUT 10000
+#define WIFI_READ_TIMEOUT  10000
+#define SOCKET                 0
+
+
+#ifdef  TERMINAL_USE
+#define LOG(a) printf a
+#else
+#define LOG(a)
+#endif
+/* Private defines -----------------------------------------------------------*/
+
+
+static  uint8_t http[1024];
+static  uint8_t  IP_Addr[4];
+
+
+// Prototipos
+int wifi_server(void);
+
+static  WIFI_Status_t SendWebPage(struct CT_Sensores_t sensors);
+static  int wifi_start(void);
+static  int wifi_connect(void);
+static  bool WebServerProcess(void);
+
+
+
+static int wifi_start(void)
+{
+  uint8_t  MAC_Addr[6];
+
+ /*Initialize and use WIFI module */
+  if(WIFI_Init() ==  WIFI_STATUS_OK)
+  {
+    LOG(("ES-WIFI Initialized.\r\n"));
+    if(WIFI_GetMAC_Address(MAC_Addr) == WIFI_STATUS_OK)
+    {
+      LOG(("> es-wifi module MAC Address : %X:%X:%X:%X:%X:%X\r\n",
+               MAC_Addr[0],
+               MAC_Addr[1],
+               MAC_Addr[2],
+               MAC_Addr[3],
+               MAC_Addr[4],
+               MAC_Addr[5]));
+    }
+    else
+    {
+      LOG(("> ERROR : CANNOT get MAC address\r\n"));
+      return -1;
+    }
+  }
+  else
+  {
+    return -1;
+  }
+  return 0;
+}
+
+
+
+int wifi_connect(void)
+{
+
+  wifi_start();
+
+  LOG(("\r\nConnecting to %s , %s\r\n",SSID,PASSWORD));
+  if( WIFI_Connect(SSID, PASSWORD, WIFI_ECN_WPA2_PSK) == WIFI_STATUS_OK)
+  {
+    if(WIFI_GetIP_Address(IP_Addr) == WIFI_STATUS_OK)
+    {
+      LOG(("> es-wifi module connected: got IP Address : %d.%d.%d.%d\r\n",
+               IP_Addr[0],
+               IP_Addr[1],
+               IP_Addr[2],
+               IP_Addr[3]));
+    }
+    else
+    {
+		  LOG((" ERROR : es-wifi module CANNOT get IP address\r\n"));
+      return -1;
+    }
+  }
+  else
+  {
+		 LOG(("ERROR : es-wifi module NOT connected\r\n"));
+     return -1;
+  }
+  return 0;
+}
+
+static void prvTemperaturePublisher(void *pvParameters) {
+	unsigned char buffer[128];
+	MQTTTransport transporter;
+	int result;
+	int length;
+
+	// State machine.
+	int internalState = 0;
+	while(1) {
+		switch(internalState){
+		case 0:	{
+			// Initialize the network and connect to
+			wifi_start();
+			if(network_connect("iot.eclipse.org", 1883, CONNECTION_KEEPALIVE_S, false) == 0){
+				// To the next state.
+				internalState++;
+			}
+		} break;
+		case 1:	{
+			// Populate the transporter.
+			transporter.sck = &transport_socket;
+			transporter.getfn = transport_getdatanb;
+			transporter.state = 0;
+
+			// Populate the connect struct.
+			MQTTPacket_connectData connectData = MQTTPacket_connectData_initializer;
+			connectData.MQTTVersion = 3;
+			connectData.clientID.cstring = "TemperaturePublisher";
+			connectData.keepAliveInterval = CONNECTION_KEEPALIVE_S * 2;
+			length = MQTTSerialize_connect(buffer, sizeof(buffer), &connectData);
+
+			// Send CONNECT to the mqtt broker.
+			if((result = transport_sendPacketBuffer(transport_socket, buffer, length)) == length){
+				// To the next state.
+				internalState++;
+			} else {
+				// Start over.
+				internalState = 0;
+			}
+		} break;
+		case 2:	{
+			// Wait for CONNACK response from the mqtt broker.
+			while(true) {
+				// Wait until the transfer is done.
+				if((result = MQTTPacket_readnb(buffer, sizeof(buffer), &transporter)) == CONNACK){
+					// Check if the connection was accepted.
+					unsigned char sessionPresent, connack_rc;
+					if ((MQTTDeserialize_connack(&sessionPresent, &connack_rc, buffer, sizeof(buffer)) != 1) || (connack_rc != 0)){
+						// Start over.
+						internalState = 0;
+						break;
+					}else{
+						// To the next state.
+						internalState++;
+						break;
+					}
+				} else if (result == -1) {
+					// Start over.
+					internalState = 0;
+					break;
+				}
+			}
+		} break;
+		case 3:	{
+			// Turn the LED on.
+			vLedWrite(0, true);
+
+			// Set delay timer.
+			TickType_t wakeTime = xTaskGetTickCount();
+
+			// Populate the publish message.
+			MQTTString topicString = MQTTString_initializer;
+			topicString.cstring = "temperature/value";
+			unsigned char payload[16];
+			length = MQTTSerialize_publish(buffer, sizeof(buffer), 0, 0, 0, 0, topicString, payload, (length = sprintf(payload, "%d", (int)temperature_read())));
+
+			// Send PUBLISH to the mqtt broker.
+			if((result = transport_sendPacketBuffer(transport_socket, buffer, length)) == length){
+				// Turn the LED off.
+				vLedWrite(0, false);
+
+				// Wait 5s.
+				vTaskDelayUntil(&wakeTime, pdMS_TO_TICKS(5000));
+			} else {
+				// Start over.
+				internalState = 0;
+			}
+		} break;
+		default:
+			internalState = 0;
+		}
+	}
+}
+
+/*
+ * @brief Time provider for the networkwrapper..
+ * @return Time in ms.
+ */
+long unsigned int network_gettime_ms(void) {
+	return (xTaskGetTickCount() * portTICK_PERIOD_MS);
+}
+
 
 //ChatGPT dice esto:
 
