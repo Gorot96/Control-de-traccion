@@ -1,5 +1,0 @@
-../Core/Src/IMUS.c:16:6:initAccelerometer	32	static
-../Core/Src/IMUS.c:23:9:ReadIMU1	40	static
-../Core/Src/IMUS.c:46:9:ReadIMU2	40	static
-../Core/Src/IMUS.c:70:7:ReadGyro	16	static
-../Core/Src/IMUS.c:76:6:TareaIMUs	56	static
