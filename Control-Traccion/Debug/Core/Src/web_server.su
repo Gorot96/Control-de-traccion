@@ -1,0 +1,8 @@
+../Core/Src/web_server.c:51:12:wifi_start	40	static
+../Core/Src/web_server.c:84:5:wifi_connect	16	static
+../Core/Src/web_server.c:114:5:wifi_server	40	static
+../Core/Src/web_server.c:163:13:WebServerProcess	136	static
+../Core/Src/web_server.c:229:22:SendWebPage	96	static
+../Core/Src/web_server.c:273:6:EXTI1_IRQHandler	8	static
+../Core/Src/web_server.c:284:6:HAL_GPIO_EXTI_Callback	16	static
+../Core/Src/web_server.c:307:6:SPI3_IRQHandler	8	static

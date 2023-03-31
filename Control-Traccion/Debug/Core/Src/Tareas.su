@@ -1,0 +1,4 @@
+../Core/Src/Tareas.c:18:6:CreaTareas	16	static
+../Core/Src/Tareas.c:26:6:CrearObjetosSerie	8	static
+../Core/Src/Tareas.c:31:6:TareaServidorWeb	16	static
+../Core/Src/Tareas.c:35:22:GetSensores	64	static
