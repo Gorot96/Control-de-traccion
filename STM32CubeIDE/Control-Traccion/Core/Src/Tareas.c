@@ -22,12 +22,12 @@ void CrearObjetosSerie(void) {
 	xSemaphoreGive (xSemaphore);
 
 	// Creamos la cola de mensajes que mandará y recibirá datos de las IMUs.
-	xQueueIMUs = xQueueCreate(1, sizeof (struct CT_Sensores_t));
+	//xQueueIMUs = xQueueCreate(1, sizeof (struct CT_Sensores_t));
 }
 
 void CrearTareas(void) {
 	// Creamos tarea para el control de las IMUs
-	xTaskCreate(TareaIMUs, "TareaIMUs", 128, NULL, 1, &sensoresTaskHandler);
+	//xTaskCreate(TareaIMUs, "TareaIMUs", 128, NULL, 1, &sensoresTaskHandler);
 
 	// Creamos la tarea para el control del servidor web
 	xTaskCreate(TareaServidorWeb,"TareaWebServer", 256, NULL,1, NULL);

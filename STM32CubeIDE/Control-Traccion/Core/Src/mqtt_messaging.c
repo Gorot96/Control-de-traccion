@@ -5,15 +5,15 @@
  *      Author: Raul Duran
  */
 
+#include <unistd.h>
 #include "main.h"
-#include "cmsis_os.h"
-#include "FreeRTOS.h"
-#include "semphr.h"
+#include "es_wifi.h"
 #include "wifi.h"
-#include "MQTTPacket.h"
+#include "cmsis_os.h"
+#include "semphr.h"
+#include "Tareas.h"
 
-// Settings.
-#define CONNECTION_KEEPALIVE_S 60UL/* Update SSID and PASSWORD with own Access point settings */
+/* Update SSID and PASSWORD with own Access point settings */
 #define SSID     "Redmi Note 8 Pro de Raul"
 #define PASSWORD "e5292c6c45df"
 #define PORT           80
@@ -32,13 +32,16 @@
 #endif
 /* Private defines -----------------------------------------------------------*/
 
-
 static  uint8_t  IP_Addr[4];
 
 
 // Prototipos
+int wifi_server(void);
+
 static  int wifi_start(void);
 static  int wifi_connect(void);
+static  int mqtt_connection(void);
+
 
 
 static int wifi_start(void)
@@ -102,4 +105,118 @@ int wifi_connect(void)
      return -1;
   }
   return 0;
+}
+
+int wifi_server(void)
+{
+  bool StopServer = false;
+
+  LOG(("\r\nRunning HTML Server test\r\n"));
+  if (wifi_connect()!=0) return -1;
+
+
+  if (WIFI_STATUS_OK!=WIFI_StartServer(SOCKET, WIFI_TCP_PROTOCOL, 1, "", PORT))
+  {
+    LOG(("ERROR: Cannot start server.\r\n"));
+  }
+
+  LOG(("Server is running and waiting for an HTTP  Client connection to %d.%d.%d.%d\r\n",IP_Addr[0],IP_Addr[1],IP_Addr[2],IP_Addr[3]));
+
+  do
+  {
+    uint8_t RemoteIP[4];
+    uint16_t RemotePort;
+
+
+    while (WIFI_STATUS_OK != WIFI_WaitServerConnection(SOCKET,1000,RemoteIP,&RemotePort))
+    {
+        LOG(("Waiting connection to  %d.%d.%d.%d\r\n",IP_Addr[0],IP_Addr[1],IP_Addr[2],IP_Addr[3]));
+
+    }
+
+    LOG(("Client connected %d.%d.%d.%d:%d\r\n",RemoteIP[0],RemoteIP[1],RemoteIP[2],RemoteIP[3],RemotePort));
+
+    StopServer=mqtt_connection();
+
+    if(WIFI_CloseServerConnection(SOCKET) != WIFI_STATUS_OK)
+    {
+      LOG(("ERROR: failed to close current Server connection\r\n"));
+      return -1;
+    }
+  }
+  while(StopServer == false);
+
+  if (WIFI_STATUS_OK!=WIFI_StopServer(SOCKET))
+  {
+    LOG(("ERROR: Cannot stop server.\r\n"));
+  }
+
+  LOG(("Server is stop\r\n"));
+  return 0;
+}
+
+extern SPI_HandleTypeDef hspi3;
+
+/******************************************************************************/
+/*                 STM32L4xx Peripherals Interrupt Handlers                   */
+/*  Add here the Interrupt Handler for the used peripheral(s) (PPP), for the  */
+/*  available peripheral interrupt handler's name please refer to the startup */
+/*  file.                                                                     */
+/************************************************************
+ *															*
+ *		Rutinas de servicio de interrupciones				*
+ *															*
+ ************************************************************/
+
+/**
+  * @brief  This function handles external lines 1interrupt request.
+  * @param  None
+  * @retval None
+  */
+void EXTI1_IRQHandler(void)
+{
+ HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_1);
+ portYIELD_FROM_ISR(pdFALSE);
+}
+
+/**
+  * @brief  EXTI line detection callback.
+  * @param  GPIO_Pin: Specifies the port pin connected to corresponding EXTI line.
+  * @retval None
+  */
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+  switch (GPIO_Pin)
+  {
+    case (GPIO_PIN_1):
+    {
+      SPI_WIFI_ISR();
+      break;
+    }
+    default:
+    {
+      break;
+    }
+  }
+  portYIELD_FROM_ISR(pdFALSE);
+}
+
+/**
+  * @brief  SPI3 line detection callback.
+  * @param  None
+  * @retval None
+  */
+extern  SPI_HandleTypeDef hspi;
+void SPI3_IRQHandler(void)
+{
+  HAL_SPI_IRQHandler(&hspi);
+  portYIELD_FROM_ISR(pdFALSE);
+}
+
+/***************************************************************************/
+
+int mqtt_connection(void) {
+	LOG(("\r\nWi-Fi successfully connected\r\n"));
+
+	return 0;
 }
