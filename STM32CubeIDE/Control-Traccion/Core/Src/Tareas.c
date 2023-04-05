@@ -14,7 +14,7 @@ SemaphoreHandle_t xSemaphore;
 
 SemaphoreHandle_t xSemaphore;
 
-int wifi_server(void);
+int mqtt_connection(void);
 
 void CrearObjetosSerie(void) {
 	// Creamos el semáforo para permitir la impresión de datos por pantalla
@@ -34,7 +34,7 @@ void CrearTareas(void) {
 }
 
 void TareaServidorWeb(void * pArg) {
-	wifi_server();
+	return mqtt_connection();
 }
 
 struct CT_Sensores_t GetSensores()
