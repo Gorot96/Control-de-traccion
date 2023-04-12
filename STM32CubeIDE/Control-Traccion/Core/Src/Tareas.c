@@ -34,7 +34,7 @@ void CrearTareas(void) {
 }
 
 void TareaServidorWeb(void * pArg) {
-	return wifi_server();
+	wifi_server();
 }
 
 struct CT_Sensores_t GetSensores()
