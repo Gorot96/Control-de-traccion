@@ -19,4 +19,5 @@ from django.urls import path
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('guardar_estado_boton/', views.guardar_estado_boton, name='guardar_estado_boton'),
 ]
