@@ -3,9 +3,11 @@ import json
 import time
 
 # Set the URL of the JSON file
-url = "http://192.168.106.124"
+micro_url = "http://192.168.106.124"
 
-def get_data():
+# This function obtains a JSON from a error message 
+# (because the wepbage is headerless, so it thinks that the header is actually the JSON from the webpage).
+def get_json(url):
     try:
         response = requests.get(url).text
     except Exception as e:
@@ -17,10 +19,17 @@ def get_data():
 
     objectjson = json.loads(jsonstring)
 
-    for o in objectjson.values():
+    return objectjson    
+
+# Uses a dictionary to treat the data
+def serialize_data(json):
+    for o in json.values():
         for p in o.values():
             print(p)
 
+# Main program
 while (True):
-    get_data()
+    data = get_json(micro_url)
+    serialize_data(data)
+
     time.sleep(0.25)
