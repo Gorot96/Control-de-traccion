@@ -2,9 +2,13 @@ import requests
 import json
 import time
 import requests
+import csv
 
 # Set the URL of the JSON file
-micro_url = "http://192.168.106.124"
+micro_url = "http://192.168.88.124"
+
+rows = []
+csv_file = "non_distingued_data.csv"
 
 # This function obtains a JSON from a error message 
 # (because the wepbage is headerless, so it thinks that the header is actually the JSON from the webpage).
@@ -24,9 +28,16 @@ def get_json(url):
 
 # Uses a dictionary to treat the data
 def serialize_data(json):
+    l = []
     for o in json.values():
-        for p in o.values():
-            print(p)
+        l.append(o)
+    
+    write_to_csv(l)
+
+def write_to_csv(line):
+    with open(csv_file, "a", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerow(line)
 
 # Main program
 while (True):
