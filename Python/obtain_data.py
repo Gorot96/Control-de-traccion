@@ -46,13 +46,14 @@ def write_to_csv(line):
         writer.writerow(line)
 
 def derrape(threadName):
+    global derrape
     while(True):
         if keyboard.is_pressed('d'):
             derrape = True
         else:
             derrape = False
 
-# Main program
+# Main programdd
 thread.start_new_thread(derrape, tuple(["Segundo hilo"]))
 
 while (True):
