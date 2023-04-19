@@ -7,7 +7,6 @@ import csv
 # Set the URL of the JSON file
 micro_url = "http://192.168.88.124"
 
-rows = []
 csv_file = "non_distingued_data.csv"
 
 # This function obtains a JSON from a error message 
