@@ -115,7 +115,7 @@ int wifi_server(void)
 {
   bool StopServer = false;
 
-  LOG(("\r\nRunning HTML Server test\r\n"));
+  // Running HTML Server test
   if (wifi_connect()!=0) return -1;
 
 
@@ -134,7 +134,7 @@ int wifi_server(void)
 
     while (WIFI_STATUS_OK != WIFI_WaitServerConnection(SOCKET,1000,RemoteIP,&RemotePort))
     {
-        LOG(("Waiting connection to  %d.%d.%d.%d\r\n",IP_Addr[0],IP_Addr[1],IP_Addr[2],IP_Addr[3]));
+        // Waiting connection
 
     }
 
@@ -169,7 +169,7 @@ static bool WebServerProcess(void)
 
   if (WIFI_STATUS_OK == WIFI_ReceiveData(SOCKET, resp, 1000, &respLen, WIFI_READ_TIMEOUT))
   {
-   LOG(("get %d byte from server\r\n",respLen));
+   // get bytes from server
 
    if( respLen > 0)
    {
@@ -182,12 +182,12 @@ static bool WebServerProcess(void)
         }
         else
         {
-          LOG(("Send page after  GET command\r\n"));
+          //Send page after  GET command
         }
        }
        else if(strstr((char *)resp, "POST"))/* POST: received info */
        {
-         LOG(("Post request\r\n"));
+         // Post request
 
          if(strstr((char *)resp, "stop_server"))
          {
@@ -207,7 +207,7 @@ static bool WebServerProcess(void)
          }
          else
          {
-           LOG(("Send Page after POST command\r\n"));
+           // Send Page after POST command
          }
        }
      }

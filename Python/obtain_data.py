@@ -7,7 +7,7 @@ import _thread as thread
 import keyboard
 
 # Set the URL of the JSON file
-micro_url = "http://192.168.88.124"
+micro_url = "http://192.168.196.124"
 
 csv_file = "non_distingued_data.csv"
 
@@ -59,4 +59,4 @@ while (True):
     data = get_json(micro_url)
     serialize_data(data)
 
-    time.sleep(0.25)
+    #time.sleep(0.25)
