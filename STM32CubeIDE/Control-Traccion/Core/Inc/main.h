@@ -61,6 +61,8 @@ struct CT_Sensores_t {
 
 /* USER CODE END EM */
 
+void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
+
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
 
@@ -92,14 +94,8 @@ void Error_Handler(void);
 #define ARD_A3_GPIO_Port GPIOC
 #define ARD_A2_Pin GPIO_PIN_3
 #define ARD_A2_GPIO_Port GPIOC
-#define ARD_D1_Pin GPIO_PIN_0
-#define ARD_D1_GPIO_Port GPIOA
 #define ARD_D0_Pin GPIO_PIN_1
 #define ARD_D0_GPIO_Port GPIOA
-#define ARD_D4_Pin GPIO_PIN_3
-#define ARD_D4_GPIO_Port GPIOA
-#define ARD_D7_Pin GPIO_PIN_4
-#define ARD_D7_GPIO_Port GPIOA
 #define ARD_D13_Pin GPIO_PIN_5
 #define ARD_D13_GPIO_Port GPIOA
 #define ARD_D12_Pin GPIO_PIN_6
@@ -108,8 +104,6 @@ void Error_Handler(void);
 #define ARD_D11_GPIO_Port GPIOA
 #define ARD_A1_Pin GPIO_PIN_4
 #define ARD_A1_GPIO_Port GPIOC
-#define ARD_D3_Pin GPIO_PIN_0
-#define ARD_D3_GPIO_Port GPIOB
 #define ARD_D8_Pin GPIO_PIN_2
 #define ARD_D8_GPIO_Port GPIOB
 #define DFSDM1_DATIN2_Pin GPIO_PIN_7
@@ -148,9 +142,6 @@ void Error_Handler(void);
 #define USB_OTG_FS_PWR_EN_GPIO_Port GPIOD
 #define SPBTLE_RF_SPI3_CSN_Pin GPIO_PIN_13
 #define SPBTLE_RF_SPI3_CSN_GPIO_Port GPIOD
-#define ARD_D2_Pin GPIO_PIN_14
-#define ARD_D2_GPIO_Port GPIOD
-#define ARD_D2_EXTI_IRQn EXTI15_10_IRQn
 #define HTS221_DRDY_EXTI15_Pin GPIO_PIN_15
 #define HTS221_DRDY_EXTI15_GPIO_Port GPIOD
 #define HTS221_DRDY_EXTI15_EXTI_IRQn EXTI15_10_IRQn

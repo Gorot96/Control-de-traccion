@@ -16,6 +16,7 @@
 /* Update SSID and PASSWORD with own Access point settings */
 #define SSID     "Redmi Note 8 Pro de Raul"
 #define PASSWORD "e5292c6c45df"
+
 #define PORT           80
 
 #define TERMINAL_USE
