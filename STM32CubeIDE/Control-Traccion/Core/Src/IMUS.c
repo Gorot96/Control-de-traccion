@@ -9,13 +9,16 @@
 int16_t accDataXYZ_1[3];
 
 
-extern QueueHandle_t xQueueIMUs;
+extern QueueHandle_t xQueue1;
+extern QueueHandle_t xQueue2;
+extern uint8_t usingQ, fullQ;
 extern I2C_HandleTypeDef hi2c1;
 extern I2C_HandleTypeDef hi2c2;
 
 int16_t IMU1AccelXYZ[3];
 int16_t IMU2AccelXYZ[3];
 float IMU2GyroXYZ[3];
+uint8_t queueCount = 0;
 
 void initAccelerometer (){
 	  uint8_t buffer [1];
@@ -112,7 +115,21 @@ void TareaIMUs(void * pArg) {
 		struc.IMU1gyroY = IMU2GyroXYZ[1];
 		struc.IMU1gyroZ = IMU2GyroXYZ[2];
 
-		xQueueSend(xQueueIMUs, &struc, portMAX_DELAY);
+		switch (usingQ){
+		case 0:
+			xQueueSend(xQueue1, &struc, portMAX_DELAY);
+			queueCount++;
+			break;
+		case 1:
+			xQueueSend(xQueue2, &struc, portMAX_DELAY);
+			queueCount++;
+			break;
+		}
+
+		if (queueCount == MAX_QUEUE_LENGTH) {
+			usingQ = !usingQ;
+			queueCount = 0;
+		}
 	}
 }
 
