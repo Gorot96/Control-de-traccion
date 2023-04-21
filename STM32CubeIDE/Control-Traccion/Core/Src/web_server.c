@@ -231,6 +231,7 @@ static WIFI_Status_t SendWebPage(struct CT_Sensores_t sensors)
   WIFI_Status_t ret;
 
   /* construct web page content */
+  // TODO: Enviar varios datos en el mismo mensaje.
   sprintf(http, "###{\"IMU1accelX\": %d, \"IMU1accelY\": %d, \"IMU1accelZ\": %d, \"IMU2accelX\": %d, "
 		  "\"IMU2accelY\": %d, \"IMU2accelZ\": %d}",
 		(int) sensors.IMU1accelX, (int) sensors.IMU1accelY, (int) sensors.IMU1accelZ, (int) sensors.IMU2accelX,
