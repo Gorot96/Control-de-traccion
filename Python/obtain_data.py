@@ -11,17 +11,10 @@ micro_url = "http://192.168.234.124"
 
 csv_file = "non_distingued_data.csv"
 
-# This function obtains a JSON from a error message 
-# (because the wepbage is headerless, so it thinks that the header is actually the JSON from the webpage).
-
 derrape = False
 
-# This variable is to control the packet size send through the connection
-
-packet_size = 5
-
-# This variable contains all the json data
-
+# This function obtains a JSON from a error message 
+# (because the wepbage is headerless, so it thinks that the header is actually the JSON from the webpage).
 
 def get_json(url):
     json_list = []

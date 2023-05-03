@@ -46,8 +46,8 @@ static  int wifi_start(void);
 static  int wifi_connect(void);
 static  bool WebServerProcess(void);
 
-uint8_t arraySize = 5;
-struct CT_Sensores_t sensorArray[5];
+struct CT_Sensores_t sensorArray[10];
+uint8_t arraySize = 10;
 
 static int wifi_start(void)
 {
@@ -231,7 +231,7 @@ static WIFI_Status_t SendWebPage(void)
   WIFI_Status_t ret;
   uint8_t k;
 
-  sprintf(http, '/0');
+  sprintf(http, "0");
 
   /* construct web page content */
   // TODO: Enviar varios datos en el mismo mensaje.
