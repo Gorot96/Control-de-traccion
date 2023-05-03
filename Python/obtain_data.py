@@ -7,7 +7,7 @@ import _thread as thread
 import keyboard
 
 # Set the URL of the JSON file
-micro_url = "http://192.168.196.124"
+micro_url = "http://192.168.234.124"
 
 csv_file = "non_distingued_data.csv"
 
@@ -16,7 +16,17 @@ csv_file = "non_distingued_data.csv"
 
 derrape = False
 
+# This variable is to control the packet size send through the connection
+
+packet_size = 5
+
+# This variable contains all the json data
+
+
 def get_json(url):
+    json_list = []
+    str_list = []
+
     try:
         response = requests.get(url).text
     except Exception as e:
@@ -24,20 +34,25 @@ def get_json(url):
 
     parts = res.split('###')
 
-    jsonstring = str(parts[1][:-3]).strip()
+    for i in range(1, (len(parts) - 1)):
+        str_list.append(parts[i].strip())
 
-    objectjson = json.loads(jsonstring)
+    str_list.append(parts[-1][:-3])
 
-    return objectjson    
+    json_list = [json.loads(s) for s in str_list]
+
+    return json_list
+
 
 # Uses a dictionary to treat the data
-def serialize_data(json):
-    l = []
-    for o in json.values():
-        l.append(o)
-    
-    l.append("DERRAPE") if derrape == True else l.append("NO_DERRAPE")
-    write_to_csv(l)
+def serialize_data(json_list):
+    for json in json_list:
+        l = []
+        for o in json.values():
+            l.append(o)
+        
+        l.append("DERRAPE") if derrape == True else l.append("NO_DERRAPE")
+        write_to_csv(l)
 
 def write_to_csv(line):
     with open(csv_file, "a", newline="") as f:

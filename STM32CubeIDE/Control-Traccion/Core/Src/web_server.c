@@ -41,12 +41,13 @@ static  uint8_t  IP_Addr[4];
 // Prototipos
 int wifi_server(void);
 
-static  WIFI_Status_t SendWebPage(struct CT_Sensores_t sensors);
+static  WIFI_Status_t SendWebPage(void);
 static  int wifi_start(void);
 static  int wifi_connect(void);
 static  bool WebServerProcess(void);
 
-
+uint8_t arraySize = 5;
+struct CT_Sensores_t sensorArray[5];
 
 static int wifi_start(void)
 {
@@ -162,7 +163,6 @@ int wifi_server(void)
 
 static bool WebServerProcess(void)
 {
-	struct CT_Sensores_t sensors;
   uint16_t  respLen;
   static   uint8_t resp[1024];
   bool    stopserver=false;
@@ -175,8 +175,8 @@ static bool WebServerProcess(void)
    {
       if(strstr((char *)resp, "GET")) /* GET: put web page */
       {
-		sensors = GetSensores();
-        if(SendWebPage(sensors) != WIFI_STATUS_OK)
+		GetSensores(sensorArray, arraySize);
+        if(SendWebPage() != WIFI_STATUS_OK)
         {
           LOG(("> ERROR : Cannot send web page\r\n"));
         }
@@ -200,8 +200,8 @@ static bool WebServerProcess(void)
              stopserver = true;
            }
          }
-         sensors = GetSensores();
-         if(SendWebPage(sensors) != WIFI_STATUS_OK)
+         GetSensores(sensorArray, arraySize);
+         if(SendWebPage() != WIFI_STATUS_OK)
          {
            LOG(("> ERROR : Cannot send web page\r\n"));
          }
@@ -225,17 +225,27 @@ static bool WebServerProcess(void)
   * @param  None
   * @retval None
   */
-static WIFI_Status_t SendWebPage(struct CT_Sensores_t sensors)
+static WIFI_Status_t SendWebPage(void)
 {
   uint16_t SentDataLength;
   WIFI_Status_t ret;
+  uint8_t k;
+
+  sprintf(http, '/0');
 
   /* construct web page content */
   // TODO: Enviar varios datos en el mismo mensaje.
-  sprintf(http, "###{\"IMU1accelX\": %d, \"IMU1accelY\": %d, \"IMU1accelZ\": %d, \"IMU2accelX\": %d, "
-		  "\"IMU2accelY\": %d, \"IMU2accelZ\": %d}",
-		(int) sensors.IMU1accelX, (int) sensors.IMU1accelY, (int) sensors.IMU1accelZ, (int) sensors.IMU2accelX,
-		(int) sensors.IMU2accelY, (int) sensors.IMU2accelZ);
+  for (k = 0; k < arraySize; k++) {
+	  struct CT_Sensores_t sensors = sensorArray[k];
+	  char newjson[256];
+
+	  sprintf(newjson, "###{\"IMU1accelX\": %d, \"IMU1accelY\": %d, \"IMU1accelZ\": %d, \"IMU2accelX\": %d, "
+			  "\"IMU2accelY\": %d, \"IMU2accelZ\": %d}",
+			(int) sensors.IMU1accelX, (int) sensors.IMU1accelY, (int) sensors.IMU1accelZ, (int) sensors.IMU2accelX,
+			(int) sensors.IMU2accelY, (int) sensors.IMU2accelZ);
+
+	  strcat(http, newjson);
+  }
 
   ret = WIFI_SendData(0, (uint8_t *)http, strlen((char *)http), &SentDataLength, WIFI_WRITE_TIMEOUT);
 

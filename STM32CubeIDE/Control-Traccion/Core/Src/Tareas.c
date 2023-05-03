@@ -8,8 +8,7 @@
 
 #include "Tareas.h"
 
-QueueHandle_t xQueue1;
-QueueHandle_t xQueue2;
+QueueHandle_t xQueue;
 TaskHandle_t sensoresTaskHandler;
 SemaphoreHandle_t xSemaphore;
 
@@ -17,18 +16,13 @@ SemaphoreHandle_t xSemaphore;
 
 int wifi_server(void);
 
-uint8_t usingQ, fullQ;
-
 void CrearObjetosSerie(void) {
 	// Creamos el semáforo para permitir la impresión de datos por pantalla
 	xSemaphore = xSemaphoreCreateBinary();
 	xSemaphoreGive (xSemaphore);
 
 	// Creamos la cola de mensajes que mandará y recibirá datos de las IMUs.
-	xQueue1 = xQueueCreate(1, sizeof (struct CT_Sensores_t));
-	xQueue2 = xQueueCreate(1, sizeof (struct CT_Sensores_t));
-
-	usingQ = 0;
+	xQueue = xQueueCreate(10, sizeof (struct CT_Sensores_t));
 }
 
 void CrearTareas(void) {
@@ -43,17 +37,14 @@ void TareaServidorWeb(void * pArg) {
 	wifi_server();
 }
 
-struct CT_Sensores_t GetSensores()
+void GetSensores(struct CT_Sensores_t* pSensores, uint8_t packet_size)
 {
-	struct CT_Sensores_t sensors;
-	xTaskNotifyGive(sensoresTaskHandler);
-	switch (usingQ){
-	case 0:
-		xQueueReceive(xQueue1, &sensors, portMAX_DELAY);
-		break;
-	case 1:
-		xQueueReceive(xQueue2, &sensors, portMAX_DELAY);
-		break;
+	uint8_t i;
+	for (i = 0; i < packet_size; i++) {
+		struct CT_Sensores_t sensors;
+		xTaskNotifyGive(sensoresTaskHandler);
+		xQueueReceive(xQueue, &sensors, portMAX_DELAY);
+
+		pSensores[i] = sensors;
 	}
-	return sensors;
 }

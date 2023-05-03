@@ -9,9 +9,7 @@
 int16_t accDataXYZ_1[3];
 
 
-extern QueueHandle_t xQueue1;
-extern QueueHandle_t xQueue2;
-extern uint8_t usingQ, fullQ;
+extern QueueHandle_t xQueue;
 extern I2C_HandleTypeDef hi2c1;
 extern I2C_HandleTypeDef hi2c2;
 
@@ -115,21 +113,7 @@ void TareaIMUs(void * pArg) {
 		struc.IMU1gyroY = IMU2GyroXYZ[1];
 		struc.IMU1gyroZ = IMU2GyroXYZ[2];
 
-		switch (usingQ){
-		case 0:
-			xQueueSend(xQueue1, &struc, portMAX_DELAY);
-			queueCount++;
-			break;
-		case 1:
-			xQueueSend(xQueue2, &struc, portMAX_DELAY);
-			queueCount++;
-			break;
-		}
-
-		if (queueCount == MAX_QUEUE_LENGTH) {
-			usingQ = !usingQ;
-			queueCount = 0;
-		}
+		xQueueSend(xQueue, &struc, portMAX_DELAY);
 	}
 }
 
