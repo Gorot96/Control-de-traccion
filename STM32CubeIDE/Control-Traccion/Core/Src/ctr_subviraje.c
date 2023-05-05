@@ -17,6 +17,9 @@ void Tarea_ctr_subviraje(void * pArg) {
 	uint32_t ticks = period * HAL_RCC_GetSysClockFreq() / 1000000; // En ticks del temporizador
 	uint32_t duty_ticks = (duty_cycle * ticks) / period;
 
+	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_4);
+	__HAL_TIM_SET_PRESCALER(&htim3, 159);
+
 	while(1)
 	{
 		xTaskNotifyGive(sensoresTaskHandler);
@@ -25,10 +28,10 @@ void Tarea_ctr_subviraje(void * pArg) {
 
 		xQueueReceive(xQueue, &sensors, portMAX_DELAY);
 
-		if(sensors.IMU1accelX<sensors.IMU2accelX){
-			// Aplico el freno al canal PWM
-			__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_4, duty_ticks);
+		// Aplico el freno al canal PWM
+		__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_4, duty_ticks);
 
+		if(sensors.IMU1accelX<sensors.IMU2accelX){
 			// Activo el multiplexor
 			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET);
 		} else {
