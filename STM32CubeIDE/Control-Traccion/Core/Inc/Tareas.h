@@ -18,6 +18,6 @@ void CrearTareas(void);
 void CrearObjetosSerie(void);
 void TareaServidorWeb(void * pArg);
 void TareaIMUs(void *pArg);
-struct CT_Sensores_t GetSensores(void);
+void GetSensores(struct CT_Sensores_t* pSensores, uint8_t packet_size);
 
 #endif /* INC_TAREAS_H_ */

@@ -41,12 +41,13 @@ static  uint8_t  IP_Addr[4];
 // Prototipos
 int wifi_server(void);
 
-static  WIFI_Status_t SendWebPage(struct CT_Sensores_t sensors);
+static  WIFI_Status_t SendWebPage(void);
 static  int wifi_start(void);
 static  int wifi_connect(void);
 static  bool WebServerProcess(void);
 
-
+struct CT_Sensores_t sensorArray[10];
+uint8_t arraySize = 10;
 
 static int wifi_start(void)
 {
@@ -115,7 +116,7 @@ int wifi_server(void)
 {
   bool StopServer = false;
 
-  LOG(("\r\nRunning HTML Server test\r\n"));
+  // Running HTML Server test
   if (wifi_connect()!=0) return -1;
 
 
@@ -134,7 +135,7 @@ int wifi_server(void)
 
     while (WIFI_STATUS_OK != WIFI_WaitServerConnection(SOCKET,1000,RemoteIP,&RemotePort))
     {
-        LOG(("Waiting connection to  %d.%d.%d.%d\r\n",IP_Addr[0],IP_Addr[1],IP_Addr[2],IP_Addr[3]));
+        // Waiting connection
 
     }
 
@@ -162,32 +163,31 @@ int wifi_server(void)
 
 static bool WebServerProcess(void)
 {
-	struct CT_Sensores_t sensors;
   uint16_t  respLen;
   static   uint8_t resp[1024];
   bool    stopserver=false;
 
   if (WIFI_STATUS_OK == WIFI_ReceiveData(SOCKET, resp, 1000, &respLen, WIFI_READ_TIMEOUT))
   {
-   LOG(("get %d byte from server\r\n",respLen));
+   // get bytes from server
 
    if( respLen > 0)
    {
       if(strstr((char *)resp, "GET")) /* GET: put web page */
       {
-		sensors = GetSensores();
-        if(SendWebPage(sensors) != WIFI_STATUS_OK)
+		GetSensores(sensorArray, arraySize);
+        if(SendWebPage() != WIFI_STATUS_OK)
         {
           LOG(("> ERROR : Cannot send web page\r\n"));
         }
         else
         {
-          LOG(("Send page after  GET command\r\n"));
+          //Send page after  GET command
         }
        }
        else if(strstr((char *)resp, "POST"))/* POST: received info */
        {
-         LOG(("Post request\r\n"));
+         // Post request
 
          if(strstr((char *)resp, "stop_server"))
          {
@@ -200,14 +200,14 @@ static bool WebServerProcess(void)
              stopserver = true;
            }
          }
-         sensors = GetSensores();
-         if(SendWebPage(sensors) != WIFI_STATUS_OK)
+         GetSensores(sensorArray, arraySize);
+         if(SendWebPage() != WIFI_STATUS_OK)
          {
            LOG(("> ERROR : Cannot send web page\r\n"));
          }
          else
          {
-           LOG(("Send Page after POST command\r\n"));
+           // Send Page after POST command
          }
        }
      }
@@ -225,16 +225,27 @@ static bool WebServerProcess(void)
   * @param  None
   * @retval None
   */
-static WIFI_Status_t SendWebPage(struct CT_Sensores_t sensors)
+static WIFI_Status_t SendWebPage(void)
 {
   uint16_t SentDataLength;
   WIFI_Status_t ret;
+  uint8_t k;
+
+  sprintf(http, "0");
 
   /* construct web page content */
-  sprintf(http, "###{\"IMU1accelX\": %d, \"IMU1accelY\": %d, \"IMU1accelZ\": %d, \"IMU2accelX\": %d, "
-		  "\"IMU2accelY\": %d, \"IMU2accelZ\": %d}",
-		(int) sensors.IMU1accelX, (int) sensors.IMU1accelY, (int) sensors.IMU1accelZ, (int) sensors.IMU2accelX,
-		(int) sensors.IMU2accelY, (int) sensors.IMU2accelZ);
+  // TODO: Enviar varios datos en el mismo mensaje.
+  for (k = 0; k < arraySize; k++) {
+	  struct CT_Sensores_t sensors = sensorArray[k];
+	  char newjson[256];
+
+	  sprintf(newjson, "###{\"IMU1accelX\": %d, \"IMU1accelY\": %d, \"IMU1accelZ\": %d, \"IMU2accelX\": %d, "
+			  "\"IMU2accelY\": %d, \"IMU2accelZ\": %d}",
+			(int) sensors.IMU1accelX, (int) sensors.IMU1accelY, (int) sensors.IMU1accelZ, (int) sensors.IMU2accelX,
+			(int) sensors.IMU2accelY, (int) sensors.IMU2accelZ);
+
+	  strcat(http, newjson);
+  }
 
   ret = WIFI_SendData(0, (uint8_t *)http, strlen((char *)http), &SentDataLength, WIFI_WRITE_TIMEOUT);
 

@@ -8,7 +8,7 @@
 
 #include "Tareas.h"
 
-QueueHandle_t xQueueIMUs;
+QueueHandle_t xQueue;
 TaskHandle_t sensoresTaskHandler;
 SemaphoreHandle_t xSemaphore;
 
@@ -22,7 +22,7 @@ void CrearObjetosSerie(void) {
 	xSemaphoreGive (xSemaphore);
 
 	// Creamos la cola de mensajes que mandará y recibirá datos de las IMUs.
-	xQueueIMUs = xQueueCreate(1, sizeof (struct CT_Sensores_t));
+	xQueue = xQueueCreate(10, sizeof (struct CT_Sensores_t));
 }
 
 void CrearTareas(void) {
@@ -37,10 +37,14 @@ void TareaServidorWeb(void * pArg) {
 	wifi_server();
 }
 
-struct CT_Sensores_t GetSensores()
+void GetSensores(struct CT_Sensores_t* pSensores, uint8_t packet_size)
 {
-	struct CT_Sensores_t sensors;
-	xTaskNotifyGive(sensoresTaskHandler);
-	xQueueReceive(xQueueIMUs, &sensors, portMAX_DELAY);
-	return sensors;
+	uint8_t i;
+	for (i = 0; i < packet_size; i++) {
+		struct CT_Sensores_t sensors;
+		xTaskNotifyGive(sensoresTaskHandler);
+		xQueueReceive(xQueue, &sensors, portMAX_DELAY);
+
+		pSensores[i] = sensors;
+	}
 }
