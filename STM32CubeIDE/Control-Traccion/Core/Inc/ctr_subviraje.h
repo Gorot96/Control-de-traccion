@@ -8,7 +8,13 @@
 #include "cmsis_os.h"
 #include "FreeRTOS.h"
 #include "semphr.h"
+#include "stm32l4xx_hal.h"
+#include "Tareas.h"
 
-#ifndef INC_CRT_SUBVIRAJE_H_
-#define INC_CRT_SUBVIRAJE_H_
+#ifndef INC_CTR_SUBVIRAJE_H_
+#define INC_CTR_SUBVIRAJE_H_
+
+void Tarea_ctr_subviraje(void * pArg);
+
+#endif /* INC_CTR_SUBVIRAJE_H_ */
 

@@ -7,7 +7,7 @@ import _thread as thread
 import keyboard
 
 # Set the URL of the JSON file
-micro_url = "http://192.168.234.124"
+micro_url = "http://192.168.41.124"
 
 csv_file = "non_distingued_data.csv"
 

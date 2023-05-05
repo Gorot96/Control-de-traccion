@@ -15,6 +15,7 @@ SemaphoreHandle_t xSemaphore;
 SemaphoreHandle_t xSemaphore;
 
 int wifi_server(void);
+void Tarea_ctr_subviraje(void * pArg);
 
 void CrearObjetosSerie(void) {
 	// Creamos el semáforo para permitir la impresión de datos por pantalla
@@ -30,7 +31,10 @@ void CrearTareas(void) {
 	xTaskCreate(TareaIMUs, "TareaIMUs", 128, NULL, 1, &sensoresTaskHandler);
 
 	// Creamos la tarea para el control del servidor web
-	xTaskCreate(TareaServidorWeb,"TareaWebServer", 256, NULL,1, NULL);
+	//xTaskCreate(TareaServidorWeb,"TareaWebServer", 256, NULL,1, NULL);
+
+	// Creamos la tarea para el control del subviraje
+	xTaskCreate(Tarea_ctr_subviraje, "TareaCtrSubviraje", 128, NULL, 1, NULL);
 }
 
 void TareaServidorWeb(void * pArg) {
