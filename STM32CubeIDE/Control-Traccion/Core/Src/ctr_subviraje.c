@@ -34,11 +34,11 @@ void Tarea_ctr_subviraje(void * pArg) {
 		if(sensors.IMU1accelX<sensors.IMU2accelX){
 			// Activo el multiplexor
 			HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_4);
-			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET);
+			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET);
 		} else {
 			// Desactivo el multiplexor
 			HAL_TIM_PWM_Stop(&htim3, TIM_CHANNEL_4);
-			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET);
 		}
 	}
 }
