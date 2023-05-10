@@ -8,6 +8,12 @@
 
 #include "Tareas.h"
 
+/*
+ * Esta variable decidirá si vamos a usar la placa para leer datos, o si, en cambio
+ * vamos a usarla para controlar el derrape.
+ */
+uint8_t testing = 0;
+
 QueueHandle_t xQueue;
 TaskHandle_t sensoresTaskHandler;
 SemaphoreHandle_t xSemaphore;
@@ -30,11 +36,13 @@ void CrearTareas(void) {
 	// Creamos tarea para el control de las IMUs
 	xTaskCreate(TareaIMUs, "TareaIMUs", 128, NULL, 1, &sensoresTaskHandler);
 
-	// Creamos la tarea para el control del servidor web
-	//xTaskCreate(TareaServidorWeb,"TareaWebServer", 256, NULL,1, NULL);
-
-	// Creamos la tarea para el control del subviraje
-	xTaskCreate(Tarea_ctr_subviraje, "TareaCtrSubviraje", 128, NULL, 1, NULL);
+	if (testing) {
+		// Creamos la tarea para el control del servidor web
+		xTaskCreate(TareaServidorWeb,"TareaWebServer", 256, NULL,1, NULL);
+	} else {
+		// Creamos la tarea para el control del subviraje
+		xTaskCreate(Tarea_ctr_subviraje, "TareaCtrSubviraje", 128, NULL, 1, NULL);
+	}
 }
 
 void TareaServidorWeb(void * pArg) {

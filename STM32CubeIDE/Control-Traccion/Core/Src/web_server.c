@@ -34,7 +34,7 @@
 /* Private defines -----------------------------------------------------------*/
 
 
-static  uint8_t http[1024];
+static  char http[1024];
 static  uint8_t  IP_Addr[4];
 
 
@@ -234,7 +234,6 @@ static WIFI_Status_t SendWebPage(void)
   sprintf(http, "0");
 
   /* construct web page content */
-  // TODO: Enviar varios datos en el mismo mensaje.
   for (k = 0; k < arraySize; k++) {
 	  struct CT_Sensores_t sensors = sensorArray[k];
 	  char newjson[256];
