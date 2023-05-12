@@ -10,7 +10,10 @@
 
 /*
  * Esta variable decidirá si vamos a usar la placa para leer datos, o si, en cambio
- * vamos a usarla para controlar el derrape.
+ * vamos a usarla para controlar el derrape. Valores:
+ * 		0: Controla el subviraje sólamente.
+ * 		1: Controla el servidor web sólamente.
+ * 		2: Controla tanto el servidor web como el subviraje.
  */
 uint8_t testing = 2;
 
