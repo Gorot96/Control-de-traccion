@@ -15,7 +15,7 @@
  * 		1: Controla el servidor web sólamente.
  * 		2: Controla tanto el servidor web como el subviraje.
  */
-uint8_t testing = 2;
+uint8_t testing = 0;
 
 QueueHandle_t xQueue;
 TaskHandle_t sensoresTaskHandler;

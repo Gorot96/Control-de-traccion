@@ -14,7 +14,7 @@ extern TaskHandle_t sensoresTaskHandler;
 int abs(int num);
 
 // Umbral de aceleración para la detección de subviraje
-uint8_t umbral = 10;
+uint8_t umbral = 0;
 
 void Tarea_ctr_subviraje(void * pArg) {
 	uint32_t duty_cycle = 400; // En microsegundos
