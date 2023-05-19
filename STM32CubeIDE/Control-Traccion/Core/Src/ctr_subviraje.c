@@ -14,7 +14,7 @@ extern TaskHandle_t sensoresTaskHandler;
 int abs(int num);
 
 // Umbral de aceleración para la detección de subviraje
-uint8_t umbral = 0;
+uint8_t umbral = 250;
 
 void Tarea_ctr_subviraje(void * pArg) {
 	uint32_t duty_cycle = 400; // En microsegundos
@@ -36,7 +36,7 @@ void Tarea_ctr_subviraje(void * pArg) {
 		// Aplico el freno al canal PWM
 		__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_4, duty_ticks);
 
-		if(abs(sensors.IMU1accelX) < (abs(sensors.IMU2accelX) + umbral)){
+		if((abs(sensors.IMU1accelX) + umbral) > abs(sensors.IMU2accelY)){
 			// Activo el multiplexor
 			HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_4);
 			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET);
