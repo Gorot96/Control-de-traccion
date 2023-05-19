@@ -14,6 +14,7 @@
  * 		0: Controla el subviraje sólamente.
  * 		1: Controla el servidor web sólamente.
  * 		2: Controla tanto el servidor web como el subviraje.
+ * 		Otro valor: No activa nada
  */
 uint8_t testing = 0;
 
@@ -54,6 +55,8 @@ void CrearTareas(void) {
 
 		// Creamos la tarea para el control del subviraje
 		xTaskCreate(Tarea_ctr_subviraje, "TareaCtrSubviraje", 128, NULL, 1, NULL);
+		break;
+	default:
 		break;
 	}
 }
